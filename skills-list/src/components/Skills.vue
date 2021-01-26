@@ -1,15 +1,46 @@
 <template>
-  <div id="app">
-    <Skills />
+  <div class="container">
+    <div class="holder">
+      <form @submit.prevent="addSkill">
+        <input
+          type="text"
+          placeholder="Enter a skill you have.."
+          v-model="skill"
+        />
+      </form>
+
+      <ul>
+        <transition-group
+          name="list"
+          enter-active-class="animated bounceInUp"
+          leave-active-class="animated bounceOutDown"
+        >
+          <li v-for="(data, index) in skills" :key="index">
+            {{ index }}. {{ data.skill }}
+            <i class="fa fa-minus-circle" v-on:click="remove(index)"></i>
+          </li>
+        </transition-group>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-import Skills from "./components/Skills.vue";
 export default {
-  name: "app",
-  components: {
-    Skills,
+  name: "Skills",
+  data() {
+    return {
+      skills: [{ skill: "Vue.js" }, { skill: "Frontend Developer" }],
+    };
+  },
+  methods: {
+    addSkill() {
+      this.skills.push({ skill: this.skill });
+      this.skill = "";
+    },
+    remove(id) {
+      this.skills.splice(id, 1);
+    },
   },
 };
 </script>
